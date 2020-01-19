@@ -42,7 +42,7 @@ public class Homework1 {
             }
 
             long stopTime = System.currentTimeMillis();
-            float timePerInsert = (stopTime - startTime) / INSERTS_PER_READING;
+            float timePerInsert = (stopTime - startTime) / (float)INSERTS_PER_READING;
             
             // output reading in tabular format
             //System.out.println(array.length + " " + timePerInsert);
