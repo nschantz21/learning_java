@@ -5,18 +5,18 @@ import java.io.*;
 public class Homework1 {
     static int[] insert(int array[], int index, int value) {
         // create new array one larger than original array
-        int[] newArray = new int[array.length + 1];
+        int[] newArray = new int[array.length + 1]; // O(1)
         // copy elements up to insert point from original array to new array
-        for (int curr_index = 0; curr_index < index; curr_index++) {
-            newArray[curr_index] = array[curr_index];
+        for (int curr_index = 0; curr_index < index; curr_index++) { // O(n)
+            newArray[curr_index] = array[curr_index]; // O(1)
         }
         // place insert value into new array
-        newArray[index] = value;
+        newArray[index] = value; // O(1)
         // copy elements after insert point from original array to new array
-        for (int sec_idx = index; sec_idx < array.length; sec_idx++) {
-            newArray[sec_idx + 1] = array[sec_idx];
+        for (int sec_idx = index; sec_idx < array.length; sec_idx++) { // O(n)
+            newArray[sec_idx + 1] = array[sec_idx]; // O(1)
         }
-        return newArray;
+        return newArray; // O(1)
     }
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class Homework1 {
         for (int cnt = 0; cnt < NUM_READINGS; cnt++) {
             
             // each reading will be taken adter INSERTS_PER_READING inserts
-            long startTime = System.currentTimeMillis(); // current time
+            long startTime = System.currentTimeMillis();
             
             for (int insrts = 0; insrts < INSERTS_PER_READING; insrts++) {
                 int index = random.nextInt(array.length);
@@ -45,7 +45,6 @@ public class Homework1 {
             float timePerInsert = (stopTime - startTime) / (float)INSERTS_PER_READING;
             
             // output reading in tabular format
-            //System.out.println(array.length + " " + timePerInsert);
             System.out.format("%12d %21.10f\n", array.length, timePerInsert);
         }
         return;
