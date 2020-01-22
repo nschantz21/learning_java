@@ -1,3 +1,6 @@
+//---------------------------------------------------------------------------
+// Homework1.java
+//---------------------------------------------------------------------------
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.io.*;
@@ -5,18 +8,18 @@ import java.io.*;
 public class Homework1 {
     static int[] insert(int array[], int index, int value) {
         // create new array one larger than original array
-        int[] newArray = new int[array.length + 1]; // O(1)
+        int[] newArray = new int[array.length + 1];                    // O(1)
         // copy elements up to insert point from original array to new array
-        for (int curr_index = 0; curr_index < index; curr_index++) { // O(n)
-            newArray[curr_index] = array[curr_index]; // O(1)
+        for (int curr_index = 0; curr_index < index; curr_index++) {   // O(n)
+            newArray[curr_index] = array[curr_index];                  // O(1)
         }
         // place insert value into new array
-        newArray[index] = value; // O(1)
+        newArray[index] = value;                                       // O(1)
         // copy elements after insert point from original array to new array
         for (int sec_idx = index; sec_idx < array.length; sec_idx++) { // O(n)
-            newArray[sec_idx + 1] = array[sec_idx]; // O(1)
+            newArray[sec_idx + 1] = array[sec_idx];                    // O(1)
         }
-        return newArray; // O(1)
+        return newArray;                                               // O(1)
     }
 
     public static void main(String[] args) {
