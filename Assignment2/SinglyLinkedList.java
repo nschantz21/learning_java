@@ -207,21 +207,26 @@ public class SinglyLinkedList<E> {
     // a
     static void appendTerm(SinglyLinkedList<Double> polynomial, Double coefficient) {
         // append the value coefficient to polynomial
-        polynomial.insterTail(coefficient);
+        polynomial.insertTail(coefficient);
     }
 
     // b
     static void display(SinglyLinkedList<Double> polynomial) {
         
-        double coef = polynomial.getHead();
+        SinglyLinkedList<Double>.Element coef = polynomial.getHead();
         int exp_cntr = polynomial.getSize();
         while (coef != null) {
             if (coef.getData() != 0.0) {
                 // print the coefficient
-                if (exp_cntr == polynomial.getSize()) {
-                    System.out.print(coef.getData());
-                } else {
-                    System.out.print(abs(coef.getData()));
+                // don't print if coefficient is 1.0
+                if (coef.getData() != 1.0) {
+                    if (exp_cntr == polynomial.getSize()) {
+                        System.out.print(coef.getData());
+                    } else {
+                        System.out.print(Math.abs(coef.getData()));
+                    }
+                } else if (exp_cntr == 1) {
+                    System.out.print(Math.abs(coef.getData()));
                 }
                 // print the variable
                 if (exp_cntr > 1) {
@@ -231,7 +236,9 @@ public class SinglyLinkedList<E> {
                 if (exp_cntr > 2) {
                     System.out.print("^" + (exp_cntr - 1));
                 }
-                // print the operator
+            }
+            // print the operator
+            if ((coef.getNext() != null) && (coef.getNext().getData() != 0.0)) {
                 if (exp_cntr > 1) {
                     if (coef.getNext().getData() < 0) {
                         System.out.print(" - ");
@@ -245,20 +252,19 @@ public class SinglyLinkedList<E> {
             // get the next element
             coef = coef.getNext();
         }
-
+        System.out.print("\n");
     }
-
     // c
-    static Double evaluate(SinglyLinkedList<Double> polynomial, Double x) {
+    static double evaluate(SinglyLinkedList<Double> polynomial, Double x) {
         // evaluate polynomial for the given value of x and return the result
         double run_sum = 0.0;
-        double coef = polynomial.getHead();
+        SinglyLinkedList<Double>.Element coef = polynomial.getHead();
         int exp_cntr = polynomial.getSize();
         while (coef != null) {
             // add to a running sum
             double temp = 0;
             if (exp_cntr != 0) {
-                temp = coef.getData() * Math.pow(x, exp_cntr);
+                temp = coef.getData() * Math.pow(x, exp_cntr-1);
             } else {
                 temp = coef.getData();
             }
