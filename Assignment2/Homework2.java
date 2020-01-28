@@ -4,13 +4,9 @@
 //
 
 
-// polynomical should be represented as a singly-linked list
+// polynomial should be represented as a singly-linked list
 // use list implementation in the notes
 // data in each element should be Double - representing the constant of the term
-
-
-// SinglyLinkedList.java
-package cse41321.containers;
 
 import java.util.NoSuchElementException;
 
@@ -208,5 +204,68 @@ public class SinglyLinkedList<E> {
 
         return true;
     }
+    // a
+    static void appendTerm(SinglyLinkedList<Double> polynomial, Double coefficient) {
+        // append the value coefficient to polynomial
+        polynomial.insterTail(coefficient);
+    }
 
+    // b
+    static void display(SinglyLinkedList<Double> polynomial) {
+        
+        double coef = polynomial.getHead();
+        int exp_cntr = polynomial.getSize();
+        while (coef != null) {
+            if (coef.getData() != 0.0) {
+                // print the coefficient
+                if (exp_cntr == polynomial.getSize()) {
+                    System.out.print(coef.getData());
+                } else {
+                    System.out.print(abs(coef.getData()));
+                }
+                // print the variable
+                if (exp_cntr > 1) {
+                    System.out.print("x");
+                }
+                // print the exponent
+                if (exp_cntr > 2) {
+                    System.out.print("^" + (exp_cntr - 1));
+                }
+                // print the operator
+                if (exp_cntr > 1) {
+                    if (coef.getNext().getData() < 0) {
+                        System.out.print(" - ");
+                    } else {
+                        System.out.print(" + ");
+                    }
+                }
+            }
+            // decrement the exponent counter
+            --exp_cntr;
+            // get the next element
+            coef = coef.getNext();
+        }
+
+    }
+
+    // c
+    static Double evaluate(SinglyLinkedList<Double> polynomial, Double x) {
+        // evaluate polynomial for the given value of x and return the result
+        double run_sum = 0.0;
+        double coef = polynomial.getHead();
+        int exp_cntr = polynomial.getSize();
+        while (coef != null) {
+            // add to a running sum
+            double temp = 0;
+            if (exp_cntr != 0) {
+                temp = coef.getData() * Math.pow(x, exp_cntr);
+            } else {
+                temp = coef.getData();
+            }
+            run_sum += temp;
+            exp_cntr--;
+            coef = coef.getNext();
+        }
+        return run_sum;
+    }
 }
