@@ -1,3 +1,6 @@
+// main.java
+// Program to test new functions in SinglyLinkedList.java - Homework2
+
 import java.io.*;
 
 public class main {
