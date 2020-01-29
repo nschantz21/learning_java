@@ -1,12 +1,7 @@
 //
-// Homework2.java
+// Homework2
 // Use linked lists to represent, display, and evaluate polynomials
 //
-
-
-// polynomial should be represented as a singly-linked list
-// use list implementation in the notes
-// data in each element should be Double - representing the constant of the term
 
 import java.util.NoSuchElementException;
 
