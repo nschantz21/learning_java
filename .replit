@@ -1,2 +1,2 @@
 language = "java"
-run = "javac Assignment2/SinglyLinkedList.java Assignment2/main.java"
+run = "javac Assignment3/Homework3.java Assignment2/QuickSort.java"
