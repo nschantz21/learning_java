@@ -1,8 +1,4 @@
-//
-// Homework2
-// Use linked lists to represent, display, and evaluate polynomials
-//
-
+// SinglyLinkedList.java
 import java.util.NoSuchElementException;
 
 public class SinglyLinkedList<E> {
@@ -198,75 +194,5 @@ public class SinglyLinkedList<E> {
         }
 
         return true;
-    }
-    // a
-    static void appendTerm(SinglyLinkedList<Double> polynomial, Double coefficient) {
-        // append the value coefficient to polynomial
-        polynomial.insertTail(coefficient);
-    }
-
-    // b
-    static void display(SinglyLinkedList<Double> polynomial) {
-        
-        SinglyLinkedList<Double>.Element coef = polynomial.getHead();
-        int exp_cntr = polynomial.getSize();
-        while (coef != null) {
-            if (coef.getData() != 0.0) {
-                // print the coefficient
-                // don't print if coefficient is 1.0
-                if (coef.getData() != 1.0) {
-                    if (exp_cntr == polynomial.getSize()) {
-                        System.out.print(coef.getData());
-                    } else {
-                        System.out.print(Math.abs(coef.getData()));
-                    }
-                } else if (exp_cntr == 1) {
-                    System.out.print(Math.abs(coef.getData()));
-                }
-                // print the variable
-                if (exp_cntr > 1) {
-                    System.out.print("x");
-                }
-                // print the exponent
-                if (exp_cntr > 2) {
-                    System.out.print("^" + (exp_cntr - 1));
-                }
-            }
-            // print the operator
-            if ((coef.getNext() != null) && (coef.getNext().getData() != 0.0)) {
-                if (exp_cntr > 1) {
-                    if (coef.getNext().getData() < 0) {
-                        System.out.print(" - ");
-                    } else {
-                        System.out.print(" + ");
-                    }
-                }
-            }
-            // decrement the exponent counter
-            --exp_cntr;
-            // get the next element
-            coef = coef.getNext();
-        }
-        System.out.print("\n");
-    }
-    // c
-    static double evaluate(SinglyLinkedList<Double> polynomial, Double x) {
-        // evaluate polynomial for the given value of x and return the result
-        double run_sum = 0.0;
-        SinglyLinkedList<Double>.Element coef = polynomial.getHead();
-        int exp_cntr = polynomial.getSize();
-        while (coef != null) {
-            // add to a running sum
-            double temp = 0;
-            if (exp_cntr != 0) {
-                temp = coef.getData() * Math.pow(x, exp_cntr-1);
-            } else {
-                temp = coef.getData();
-            }
-            run_sum += temp;
-            exp_cntr--;
-            coef = coef.getNext();
-        }
-        return run_sum;
     }
 }
