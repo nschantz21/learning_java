@@ -7,20 +7,27 @@ public class ChainedHashTable<K, V> {
     private SinglyLinkedList<KeyValuePair<K, V>>[] table;
 
     private int size;
+    // added private members necessary to auto-grow
+    private float maxLoadFactor;
+    private int resizeMultiplier;
+    private int buckets;
 
-    // a) modify contructor to take two additional parameters
-    public ChainedHashTable(maxLoadFactor) {
-        this(997);  // A prime number of buckets
+    public ChainedHashTable() {
+        this(997, 1, 2);  // A prime number of buckets
     }
 
+    // a) modify contructor to take two additional parameters
     @SuppressWarnings("unchecked")
-    public ChainedHashTable(int buckets) {
+    public ChainedHashTable(int buckets, float maxLoadFacto, int resizeMultiplier) {
         // Create table of empty buckets
         table = new SinglyLinkedList[buckets];
         for (int i = 0; i < table.length; ++i) {
             table[i] = new SinglyLinkedList<KeyValuePair<K, V>>();
         }
 
+        this.maxLoadFactor = maxLoadFactor;
+        this.resizeMultiplier = resizeMultiplier;
+        this.buckets = buckets;
         size = 0;
     }
 
@@ -42,8 +49,41 @@ public class ChainedHashTable<K, V> {
             throw new DuplicateKeyException();
         }
 
-        getBucket(key).insertHead(new KeyValuePair<K, V>(key, value));
-        ++size;
+        // check if maxLoadFactor has been exceeded
+        if (((1.0 * this.size + 1) / this.buckets) > this.maxLoadFactor) {
+            // swap old table
+            SinglyLinkedList<KeyValuePair<K, V>>[] temp = table;
+
+            // make a new table with the larger size
+            SinglyLinkedList<KeyValuePair<K, V>>[] new_table;
+            buckets = buckets * resizeMultiplier;  // update the buckets attribute
+            new_table = new SinglyLinkedList[buckets];
+            for (int i = 0; i < new_table.length; ++i) {
+                new_table[i] = new SinglyLinkedList<KeyValuePair<K, V>>();
+            }
+            
+            // reassign table to new table
+            this.table = new_table;
+
+            // iterate over old table and insert all key-value pairs into new table
+            for (SinglyLinkedList<KeyValuePair<K, V>> sll : temp) {
+                while (!sll.isEmpty()) {
+                    KeyValuePair<K, V> kv = sll.removeHead();
+                    getBucket(kv.getKey())
+                    .insertHead(
+                        new KeyValuePair<K, V>(
+                            kv.getKey(),
+                            kv.getValue()
+                        )
+                    );
+                }
+            }
+            // add latest element
+            insert(key, value);
+        } else {
+            getBucket(key).insertHead(new KeyValuePair<K, V>(key, value));
+            ++size;
+        }
     }
 
     public V remove(K key) throws
@@ -113,9 +153,13 @@ public class ChainedHashTable<K, V> {
         return true;
     }
 
+    // b) change mapping method to multiplication
     private SinglyLinkedList<KeyValuePair<K, V>> getBucket(K key) {
-        // Division method
-        return table[Math.abs(key.hashCode()) % table.length];
+        // change to multiplication method
+        double A = (Math.sqrt(5) - 1) / 2;
+        int bkt = (int)Math.floor(this.buckets * (key.hashCode() * A % 1));
+        return table[bkt];
+        //return table[Math.abs(key.hashCode()) % table.length];
     }
 
     private class KeysIterator implements Iterator<K> {
