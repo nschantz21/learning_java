@@ -8,7 +8,7 @@ public class ChainedHashTable<K, V> {
 
     private int size;
     // added private members necessary to auto-grow
-    private float maxLoadFactor;
+    private double maxLoadFactor;
     private int resizeMultiplier;
     private int buckets;
 
@@ -18,7 +18,7 @@ public class ChainedHashTable<K, V> {
 
     // a) modify contructor to take two additional parameters
     @SuppressWarnings("unchecked")
-    public ChainedHashTable(int buckets, float maxLoadFacto, int resizeMultiplier) {
+    public ChainedHashTable(int buckets, double maxLoadFactor, int resizeMultiplier) {
         // Create table of empty buckets
         table = new SinglyLinkedList[buckets];
         for (int i = 0; i < table.length; ++i) {
@@ -35,10 +35,23 @@ public class ChainedHashTable<K, V> {
         return size;
     }
 
+    public double getMaxLoadFactor() {
+        return maxLoadFactor;
+    }
+
+    public int getResizeMultiplier() {
+        return resizeMultiplier;
+    }
+
+    public int getBuckets() {
+        return buckets;
+    }
+
     public boolean isEmpty() {
         return getSize() == 0;
     }
 
+    @SuppressWarnings("unchecked")
     public void insert(K key, V value) throws
             IllegalArgumentException,
             DuplicateKeyException {
@@ -78,6 +91,8 @@ public class ChainedHashTable<K, V> {
                     );
                 }
             }
+            // delete temp table
+            temp = null;
             // add latest element
             insert(key, value);
         } else {
